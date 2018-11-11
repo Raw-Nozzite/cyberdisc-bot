@@ -15,17 +15,13 @@ from discord.ext.commands import (
 )
 from wand.drawing import Drawing
 from wand.image import Image
-
-
 from bot.constants import ADMIN_ROLES, EMOJI_LETTERS
-
 
 EMOJI_LETTERS = [
     cycle(letters) for letters in EMOJI_LETTERS
 ]
 
 ascii_lowercase += ' '
-
 
 async def _convert_emoji(message: str) -> AsyncGenerator[str, None]:
     """Convert a string to a list of emojis."""
@@ -73,7 +69,7 @@ class Fun:
             await message.add_reaction("🤔")
 
         # React FBI OPEN UP if message contains trigger words.
-        triggers = ["child", "fbi", "loli", "hentai", "illegal", "maltego"]
+        triggers = ["child", "fbi", "loli", "hentai", "illegal", "maltego", "ahegao"]
         if any(trigger in message.content.lower() for trigger in triggers):
             await emojify(message, "fbi open up")
 
@@ -87,8 +83,13 @@ class Fun:
 
         # React "NO" if message contains revive.
         if "revive" in message.content.lower():
-            await emojify(message, "nou")
-
+            await emojify(message, "No")
+        
+        # React if a staff role is tagged
+        if any(mention in message.content for mention in ("@ampersand#3620", "@Flex#0394", "@Hlant#2066", "@jibhat#1294")):
+            await message.add_reaction("📧")
+            await emojify(message, "Have you tried emailing support@joincyberdiscovery.com? Please make sure to do that before unnecessarily pinging the staff!")
+        
     @command()
     async def lmgtfy(self, ctx: Context, *args: str):
         """
